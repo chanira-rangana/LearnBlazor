@@ -1,0 +1,70 @@
+﻿@page "/learn-blazor/bind-prop3"
+@rendermode InteractiveServer
+<div class="row">
+    <h3 class="text-success">Product Table</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>IsActive</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Product item in Products)
+            {
+                <tr>
+                    <td> <input type="text" @bind="@item.Name" @bind:event="oninput" /> </td>
+                    <td> <input type="number" @bind="@item.Price" @bind:event="oninput" /> </td>
+                    <td> <input type="checkbox" @bind="@item.IsActive" @bind:event="oninput" /> </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        @foreach (Product item in Products)
+        {
+            <p>@item?.Name || @item?.Price || @item?.IsActive || @(item.IsActive ? "Active" : "InActive") </p>
+        }
+    </div>
+</div>
+
+@code {
+    private string selectedProp = "";
+
+    private List<Product> Products = new();
+    protected override void OnInitialized()
+    {
+        Products.Add(new()
+        {
+            Id = 1,
+            Name = "Midnight Blaze",
+            Price = 5.50,
+            IsActive = false,
+            ProductProperties = new()
+            {
+                new Product_Prop { Id = 1, Key = "Flavor", Value = "Rose"},
+                new Product_Prop { Id = 2, Key = "Size", Value = "20oz"},
+                new Product_Prop { Id = 3, Key = "Color", Value="Purple" }
+            }
+        });
+
+        Products.Add(new()
+        {
+            Id = 2,
+            Name = "Blossom Lily",
+            Price = 5.50,
+            IsActive = true,
+            ProductProperties = new()
+            {
+                new Product_Prop { Id = 1, Key = "Flavor", Value = "Lily" },
+                new Product_Prop { Id = 2, Key = "Size", Value = "18oz" },
+                new Product_Prop {Id = 3,Key = "Color",Value = "White"}
+            }
+        });
+    }
+
+}

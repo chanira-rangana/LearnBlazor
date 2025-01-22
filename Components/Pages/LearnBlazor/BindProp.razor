@@ -1,0 +1,58 @@
+﻿@page "/learn-blazor/bind-prop"
+@rendermode InteractiveServer
+
+
+
+<h3>Product Two way data Binding</h3>
+
+Name : @Product.Name 
+<br />
+IsActive : @Product.IsActive
+<br />
+This product is : @(Product.IsActive ? "Active" : "Inactive")
+<br />
+<input type="checkbox" @bind="@Product.IsActive" />
+<br />
+<input type="checkbox" @bind-value="@Product.IsActive" checked="@(Product.IsActive?"checked":null)" />
+<br />
+Price : @Product.Price
+<br />
+Input Price :
+<input type="number" @bind="Product.Price" @bind:event="oninput" /> <br/>
+Input Price :
+<input type="number" @bind-value="Product.Price" @bind-value:event="oninput" />
+<br />
+Product Properties
+<select @bind="selectedProp">
+    <option value="">select one</option>
+    @foreach (var prop in Product.ProductProperties)
+    {
+        <option value="@prop.Key">@prop.Value</option>
+    }
+</select>
+<br />
+
+@if (!string.IsNullOrEmpty(selectedProp))
+{
+    @* <p>selected Prop : @selectedProp</p> *@
+    <p>Selected Value : @Product.ProductProperties?.FirstOrDefault(u => u.Value == selectedProp)?.Value</p>
+}
+
+
+
+@code {
+    private string selectedProp = "";
+    Product Product = new()
+    {
+        Id = 1,
+        Name = "Product 1",
+        IsActive = true,
+        Price = 5,
+        ProductProperties = new List<Product_Prop>
+        {
+            new Product_Prop{ Id = 1 , Key="Red", Value="Red" },
+            new Product_Prop{ Id = 2 , Key="Green", Value="Green" },
+            new Product_Prop{ Id = 3 , Key="Yellow", Value="Yellow" }
+        }
+    };
+}
